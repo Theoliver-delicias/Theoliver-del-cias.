@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theoliver Delícias no Pote</title>
+  <meta name="theme-color" content="#007BFF">
+
+  <!-- Manifesto PWA -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Registrar Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker registrado!"));
+    }
+  </script>
+
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #007BFF; color: white; margin: 0; }
+    h1 { text-align: center; font-weight: bold; }
+    .produto { border: 2px solid white; padding: 15px; margin: 15px auto; background: #ffffff22; border-radius: 12px; max-width: 300px; }
+    .produto img { max-width: 100%; display: block; margin-bottom: 10px; border-radius: 8px; }
+    button { padding: 10px 15px; background: #25D366; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+    button:hover { background: #1ebc57; }
+    #produtos { display: flex; flex-direction: column; align-items: center; }
+  </style>
+</head>
+<body>
+
+<h1>🛒 Theoliver Delícias no Pote</h1>
+<div id="produtos"></div>
+
+<script>
+  // Lista de produtos
+  const produtos = [
+    { nome: "Bolo de Chocolate", preco: 20, img: "https://via.placeholder.com/150?text=Bolo" },
+    { nome: "Cookie de Baunilha", preco: 5, img: "https://via.placeholder.com/150?text=Cookie" },
+    { nome: "Pão de Queijo", preco: 3, img: "https://via.placeholder.com/150?text=Pão" }
+  ];
+
+  const numeroWhatsApp = "5511999999999"; // Coloque seu número aqui
+
+  const container = document.getElementById("produtos");
+
+  produtos.forEach(produto => {
+    const div = document.createElement("div");
+    div.className = "produto";
+    div.innerHTML = `
+      <img src="${produto.img}" alt="${produto.nome}">
+      <strong>${produto.nome}</strong><br>
+      <span>R$ ${produto.preco.toFixed(2)}</span><br><br>
+      <button onclick="enviarWhatsApp('${produto.nome}')">Pedir no WhatsApp</button>
+    `;
+    container.appendChild(div);
+  });
+
+  function enviarWhatsApp(nomeProduto) {
+    const mensagem = `Olá! Quero comprar o produto: ${nomeProduto}`;
+    const link = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
+    window.open(link, "_blank");
+  }
+</script>
+
+</body>
+</html>
